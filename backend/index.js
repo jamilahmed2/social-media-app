@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import postRoutes from "./routes/Posts.js"
 
 const app = express()
 const PORT = process.env.PORT || 5000;
@@ -15,7 +16,8 @@ app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
 
 
-
+// Available Routes
+app.use('/posts', postRoutes);
 
 mongoose.set('strictQuery', true);
 const mongoURI = "mongodb+srv://socialmediappmern:socialmediapp123@cluster0.vfpg1kg.mongodb.net/?retryWrites=true&w=majority"
