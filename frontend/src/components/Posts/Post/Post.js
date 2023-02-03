@@ -2,7 +2,8 @@ import React from 'react'
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+// import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import EditIcon from '@mui/icons-material/Edit';
 import moment from 'moment'
 import useStyles from './style'
 const Post = ({ post }) => {
@@ -15,8 +16,8 @@ const Post = ({ post }) => {
         <Typography varient="body2">{moment(post.creator).fromNow()}</Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button style={{ color: "#fff" }} size="small" onClick={() => { }}>
-          <MoreHorizIcon fontSize='default' />
+        <Button  size="small" onClick={() => { }}>
+          <EditIcon fontSize='medium' />
         </Button>
       </div>
       <div className={classes.details}>
