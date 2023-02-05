@@ -6,7 +6,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import moment from 'moment'
 import useStyles from './style'
-const Post = ({ post }) => {
+
+const Post = ({ post,setCurrentId }) => {
   const classes = useStyles();
   return (
     <Card className={classes.Card}>
@@ -16,15 +17,16 @@ const Post = ({ post }) => {
         <Typography varient="body2">{moment(post.creator).fromNow()}</Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button  size="small" onClick={() => { }}>
+        <Button  size="small" onClick={() => setCurrentId(post._id)}>
           <EditIcon fontSize='medium' />
         </Button>
       </div>
       <div className={classes.details}>
         <Typography varient="body2" color='textSecondary'>{post.tags.map((tag) => `# ${tag} `)}</Typography>
       </div>
+        <Typography className={classes.title} varient="h5" gutterBottom >{post.title}</Typography>
       <CardContent>
-        <Typography className={classes.title} varient="h5" gutterBottom >{post.message}</Typography>
+        <Typography  varient="h5" gutterBottom >{post.message}</Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Button size="small" color='primary' onClick={() => { }}>
