@@ -33,9 +33,20 @@ export const updatePost = async (req, res) => {
     const post = req.body;
 
     // check whethere the id is valid or not
-    if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send("Nothing to show")
-
+    if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send("Internal Error")
+    
     // if id is valid
     const updatedPost = await PostMessage.findByIdAndUpdate(_id, { ...post, _id }, { new: true });
     res.json(updatedPost);
+}
+
+// Deleteing a post
+export const deletePost = async (req, res) => {
+    const { id } = req.params;
+
+    // checking id is valid or not
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Internal Error")
+
+    await PostMessage.findByIdAndRemove(id)
+    res.json({message:"Deleted Successfully"})
 }
