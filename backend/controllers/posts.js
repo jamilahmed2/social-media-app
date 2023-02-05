@@ -34,7 +34,7 @@ export const updatePost = async (req, res) => {
 
     // check whethere the id is valid or not
     if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send("Internal Error")
-    
+
     // if id is valid
     const updatedPost = await PostMessage.findByIdAndUpdate(_id, { ...post, _id }, { new: true });
     res.json(updatedPost);
@@ -48,5 +48,17 @@ export const deletePost = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Internal Error")
 
     await PostMessage.findByIdAndRemove(id)
-    res.json({message:"Deleted Successfully"})
+    res.json({ message: "Deleted Successfully" })
+}
+
+// like a post
+export const likePost = async (req, res) => {
+    const { id } = req.params;
+
+    // checking id is valid or not
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("Internal Error")
+    const post = await PostMessage.findById(id);
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true })
+
+    res.json(updatedPost);
 }
