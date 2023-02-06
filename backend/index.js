@@ -19,20 +19,7 @@ app.use(cors());
 app.use('/posts', postRoutes);
 
 mongoose.set('strictQuery', true);
-const PORT = process.env.PORT ;
-
-app.use(express.static(path.join(__dirname, "./frontend/build/index.html")))
-
-app.get("*",function(_,res){
-    res.sendFile(
-        path.join(__dirname,'./frontend/build/index.html'),
-        function(err){
-            if(err){
-                res.status(500).send(err);
-            }
-        }
-    )
-})
+const PORT = process.env.PORT || 5000;
 
 mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true }, { useUnifiedToplogy: true })
 .then(() => app.listen(PORT, () => console.log(`server running on ${PORT}`)))
