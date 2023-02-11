@@ -18,6 +18,10 @@ app.use(cors());
 // Available Routes
 app.use('/posts', postRoutes);
 
+app.get('/',(req,res)=>{
+  res.send("Hello!  server deployed")
+})
+
 mongoose.set('strictQuery', true);
 const PORT = process.env.PORT || 5000;
 

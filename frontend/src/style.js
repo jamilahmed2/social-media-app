@@ -2,7 +2,7 @@ import { makeStyles } from "@mui/styles";
 export default makeStyles (()=>({
     appBar: {
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         borderRadius: 15,
         margin: '30px 0'

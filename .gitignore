@@ -1,0 +1,5 @@
+.env.local
+.env
+env
+Procfile
+node_modules

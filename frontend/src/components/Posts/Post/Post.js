@@ -9,10 +9,13 @@ import useStyles from './style'
 import { useDispatch } from "react-redux"
 import { deletePost,likePost } from '../../../actions/posts';
 
-const Post = ({ post, setCurrentId }) => {
-
+const Post = ({ post, setCurrentId,updateNote }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const handleEdit =()=>{
+    updateNote()
+    setCurrentId(post._id)
+  }
 
   return (
     <Card className={classes.Card}>
@@ -22,7 +25,7 @@ const Post = ({ post, setCurrentId }) => {
         <Typography varient="body2">{moment(post.creator).fromNow()}</Typography>
       </div>
       <div className={classes.overlay2}>
-        <Button size="small" onClick={() => setCurrentId(post._id)}>
+        <Button size="small" onClick={handleEdit}>
           <EditIcon fontSize='medium' />
         </Button>
       </div>
