@@ -6,22 +6,28 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import { useDispatch } from 'react-redux';
-
+import decode from 'jwt-decode'
 
 const Navbar = () => {
   const classes = useStyles();
+  const location= useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profileData')));
 
   useEffect(() => {
-    const token = user?.jti;
-    // jwt
-    setUser(JSON.parse(localStorage.getItem('profileData')));
-  }, [navigate])
+    const token = user?.token;
+    if (token) {
+      const decodedToken = decode(token);
 
-  const handleLogout = ()=>{
-    dispatch({type:"LOGOUT",});
+      if (decodedToken.exp * 1000 < new Date().getTime()) handleLogout();
+    };
+
+    setUser(JSON.parse(localStorage.getItem('profileData')));
+  }, [location])
+
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT", });
     navigate('/');
     setUser(null);
   }
@@ -32,8 +38,8 @@ const Navbar = () => {
         main: deepPurple[500],
         contrastText: "#fff",
       },
-      red:{
-        main:"#de0a26",
+      red: {
+        main: "#de0a26",
         contrastText: "#fff"
       }
     },
@@ -48,11 +54,11 @@ const Navbar = () => {
             <Typography component={Link} to="/" className={classes.heading} varient="h2" align="center">Timeline</Typography>
           </div>
           <Toolbar className={classes.toolbar}>
+            <Button variant="outlined" component={Link} to="/form" color="primary" style={{ marginRight: "5px" }}>Upload Post</Button>
             {user ? (
               <div className={classes.profile}>
                 <Avatar color="purple" alt={user.result.name} src={user.result.picture}>{user.result.name}</Avatar>
                 <Typography className={classes.userName} varient="h6">{user.result.name}</Typography>
-                <Button variant="outlined" component={Link} to="/form" color="primary" style={{ marginRight: "5px" }}>Upload Post</Button>
                 <Button variant="contained" className={classes.logout} color="red" onClick={handleLogout}>Logout</Button>
               </div>
             ) : (

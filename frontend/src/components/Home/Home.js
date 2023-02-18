@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../../actions/posts';
 import Posts from '../Posts/Posts'
 import Form from '../Form/Form'
-import { Container, Grow, Grid, Typography } from '@mui/material';
+import { Container, Grow, Grid } from '@mui/material';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
+// import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import FileBase from 'react-file-base64'
-import { createPost, updatePost } from '../../actions/posts'
+import { updatePost } from '../../actions/posts'
 import CloseIcon from '@mui/icons-material/Close';
 
 const Home = () => {
@@ -19,8 +19,9 @@ const Home = () => {
     const [currentId, setCurrentId] = useState(null)
     const dispatch = useDispatch();
     const [open, setOpen] = React.useState(false);
-    const [postData, setPostData] = useState({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+    const [postData, setPostData] = useState({ title: '', message: '', tags: '', selectedFile: '' });
     const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);
+    const user = JSON.parse(localStorage.getItem('profileData'));
 
     // populating note in form to edit
     useEffect(() => {
@@ -37,19 +38,13 @@ const Home = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // updating and creating post
-        if (currentId) {
-            dispatch(updatePost(currentId, postData));
-        } else {
-            dispatch(createPost(postData));
-        }
+        dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
         handleClose()
         clear();
     };
     const clear = () => {
         setCurrentId(null);
         setPostData({
-            creator: '',
             title: '',
             message: '',
             tags: '',
@@ -70,7 +65,7 @@ const Home = () => {
                 </Button>
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>Editing Post
-                        <Button onClick={handleClose} variant="outlined" color="primary" type="submit" size="small"  ><CloseIcon/></Button>
+                        <Button onClick={handleClose} variant="outlined" color="primary" type="submit" size="small"  ><CloseIcon /></Button>
                     </DialogTitle>
                     <DialogContent>
                         <form autoComplete="off" noValidate onSubmit={handleSubmit} style={{
@@ -80,7 +75,7 @@ const Home = () => {
                             gap: "1rem",
                             margin: "1rem"
                         }}>
-                            <TextField name='creator' varient="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value })} />
+                            {/* <TextField name='creator' varient="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, creator: e.target.value })} /> */}
                             <TextField name='title' varient="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
                             <TextField name='message' varient="outlined" label="Message" fullWidth value={postData.message} onChange={(e) => setPostData({ ...postData, message: e.target.value })} />
                             <TextField name='tags' varient="outlined" label="Tags" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })} />

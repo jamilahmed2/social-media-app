@@ -9,6 +9,9 @@ import LockedOutLinedIcon from '@mui/icons-material/LockOutlined'
 import { Paper, Container, Avatar, Typography, Grid, Button } from '@mui/material'
 import Input from './Input'
 import { useNavigate } from 'react-router-dom';
+import { signup, signin } from '../../actions/auth'
+
+const initialState = { firstName: "", lastName: "", email: "", password: "", confirmPassword: "" }
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -16,26 +19,33 @@ const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
+  const [formData, setFormData] = useState(initialState);
 
   const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
 
-  const handleSubmit = () => {
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // console.log(formData)
+    if (isSignup) {
+      dispatch(signup(formData, navigate));
+    } else {
+      dispatch(signin(formData, navigate));
+    }
   };
 
-  const handleChange = () => {
-
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
   };
 
   const googleSuccess = async (credentialResponse) => {
-    // console.log(credentialResponse)
+    console.log(credentialResponse)
     // console.log(credentialResponse.credential)
 
     var profileData = jwt_decode(credentialResponse.credential)
     // console.log(profileData)
 
     const result = profileData;
-    const token = credentialResponse.credential?.jti;
+    const token = credentialResponse?.credential;
 
     try {
       dispatch({ type: 'AUTH', data: { result, token } })
@@ -51,7 +61,7 @@ const Auth = () => {
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
-    handleShowPassword(false);
+    setShowPassword(false);
   };
 
   return (
@@ -60,7 +70,7 @@ const Auth = () => {
         <Avatar sx={{ backgroundColor: "#9c27b0" }} className={classes.avatar} >
           <LockedOutLinedIcon />
         </Avatar>
-        <Typography varient="h5">{isSignup ? "Sign up" : "Sign In"}</Typography>
+        <Typography component="h1" variant="h5">{isSignup ? 'Sign up' : 'Sign in'}</Typography>
 
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing="16px">
@@ -77,7 +87,7 @@ const Auth = () => {
           </Grid>
 
           <Button sx={{ margin: "5px auto" }} type="submit" variant="contained" color="primary" fullWidth className={classes.submit}>
-            {isSignup ? "Sign Up" : "Sign In"}
+            {isSignup ? 'Sign Up' : 'Sign In'}
           </Button>
 
           <GoogleLogin
@@ -89,8 +99,8 @@ const Auth = () => {
                 onClick={renderProps.onClick}
                 disabled={renderProps.disabled}
                 variant="contained"
-                
-                >
+              >
+                <Icon />
                 Sign in with Google
               </Button>
             )}
@@ -103,7 +113,7 @@ const Auth = () => {
           <Grid container justifyContent="center">
             <Grid item>
               <Button onClick={switchMode}>
-                {isSignup ? "Already have an account? Sign Up" : "Don't Have an account? Sign In"}
+                {isSignup ? 'Already have an account? Sign in' : "Don't have an account? Sign Up"}
               </Button>
             </Grid>
           </Grid>

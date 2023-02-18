@@ -1,7 +1,8 @@
 import { CREATE, FETCH_ALL, UPDATE, DELETE } from "../constants/actionTypes"
-import * as api from '../api'
+import * as api from '../api/index'
 
-// Action Creators
+// if action creators are async then we have to use redux thunk which means we have a function which returns async fuction with dispatch
+
 // creating a post
 export const createPost = (post) => async (dispatch) => {
     try {
