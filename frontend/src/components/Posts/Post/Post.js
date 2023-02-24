@@ -36,7 +36,7 @@ const Post = ({ post, setCurrentId, updateNote }) => {
 
 
   return (
-    <Card className={classes.Card}>
+    <Card className={classes.Card} raised elevation={6}>
       <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
       <div className={classes.overlay}>
         <Typography varient="h6">{post.name}</Typography>

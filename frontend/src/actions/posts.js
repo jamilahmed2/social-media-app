@@ -1,4 +1,4 @@
-import { CREATE, FETCH_ALL, UPDATE, DELETE } from "../constants/actionTypes"
+import { CREATE, FETCH_ALL, FETCH_BY_SEARCH, UPDATE, DELETE } from "../constants/actionTypes"
 import * as api from '../api/index'
 
 // if action creators are async then we have to use redux thunk which means we have a function which returns async fuction with dispatch
@@ -50,6 +50,16 @@ export const likePost = (id) => async (dispatch) => {
     try {
         const { data } = await api.likePost(id);
         dispatch({ type: UPDATE, payload: data });
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// Search Post
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+    try {
+        const { data: { data } } = await api.fetchPostsBySearch(searchQuery);
+        dispatch({ type: FETCH_BY_SEARCH, payload: data });
     } catch (error) {
         console.log(error)
     }

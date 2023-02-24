@@ -4,7 +4,7 @@ export default makeStyles(() => ({
   appBar: {
     borderRadius: 15,
     // margin: '30px 0',
-    marginBottom:"10px",
+    marginBottom: "10px",
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -22,6 +22,7 @@ export default makeStyles(() => ({
     display: 'flex',
     justifyContent: 'flex-end',
     width: '400px',
+    alignItems: 'center',
   },
   profile: {
     display: 'flex',

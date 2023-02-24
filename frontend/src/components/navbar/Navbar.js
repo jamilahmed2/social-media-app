@@ -49,16 +49,16 @@ const Navbar = () => {
     <>
       <ThemeProvider theme={theme}>
         <AppBar className={classes.appBar} sx={{ flexDirection: 'row' }} position='static' color='inherit'>
-          <div className={classes.brandContainer}>
+          <Link to='/' className={classes.brandContainer}>
             <img className={classes.image} src={timeline} alt='timeline' height="50" />
             <Typography component={Link} to="/" className={classes.heading} varient="h2" align="center">Timeline</Typography>
-          </div>
+          </Link>
           <Toolbar className={classes.toolbar}>
-            <Button variant="outlined" component={Link} to="/form" color="primary" style={{ marginRight: "5px" }}>Upload Post</Button>
             {user ? (
               <div className={classes.profile}>
                 <Avatar color="purple" alt={user.result.name} src={user.result.picture}>{user.result.name}</Avatar>
                 <Typography className={classes.userName} varient="h6">{user.result.name}</Typography>
+                <Button variant="outlined" component={Link} to="/form" color="primary" style={{ marginRight: "5px" }}>Upload</Button>
                 <Button variant="contained" className={classes.logout} color="red" onClick={handleLogout}>Logout</Button>
               </div>
             ) : (

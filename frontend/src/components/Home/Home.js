@@ -11,7 +11,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import FileBase from 'react-file-base64'
-import { updatePost } from '../../actions/posts'
+
+import { updatePost, getPostsBySearch } from '../../actions/posts'
 import CloseIcon from '@mui/icons-material/Close';
 import Pagination from '../Pagination/Pagination';
 import useStyle from './style'
@@ -78,19 +79,19 @@ const Home = () => {
             // search post
         }
     }
-    // const handleAdd = (tag) =>  setTags([...tags, tag]) ;
+    // const handleAdd = (tag) => setTags([...tags, tag]) ;
     // const handleDelete = (tagToDelete) => { setTags(tags.filter((tag) => tag !== tagToDelete)) };
     const handleChange = (newTag) => {
         setTags(newTag)
     }
     const searchPost = () => {
-        if(search.trim()){
-            // dispatch
-        }else{
-            navigate('/')
+        if (search.trim() || tags) {
+            dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
+            navigate(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')} `);
+        } else {
+            navigate('/');
         }
     }
-
 
     return (
         <>
@@ -130,7 +131,7 @@ const Home = () => {
                             <Posts setCurrentId={setCurrentId} updateNote={updateNote} />
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Paper elevation={6}>
+                            <Paper elevation={6} >
                                 <AppBar className={classes.appBarSearch} position='static' color='inherit'>
                                     <TextField
                                         name='search'
@@ -150,7 +151,7 @@ const Home = () => {
                                     label='Search Tags'
                                     variant='outlined'
                                 />
-                                <Button onClick={searchPost} className={classes.searchButton} color='primary'>Search</Button>
+                                <Button variant='contained' onClick={searchPost} className={classes.searchButton} color='primary' sx={{ margin: '5px' }}>Search</Button>
                             </Paper>
                         </Grid>
                         <Grid item xs={12} md={6}>
