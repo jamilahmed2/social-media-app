@@ -1,0 +1,27 @@
+.cardAction {
+    /* padding: 0 16px 8px 16px; */
+    /* display: flex; */
+    transition: all .3s ease-in;
+    justify-content: space-between;
+}
+
+.cardAction:hover{
+    cursor: pointer;
+    background-color: #f2f2f2;
+}
+.overlay2{
+    float: right;
+}
+
+@media only screen and (max-width:1024px) {
+    .overlay2{
+        position: relative;
+        bottom: 1rem;
+    }
+}
+@media only screen and (max-width:600px) {
+    .overlay2{
+        position: relative;
+        bottom: 0;
+    }
+}

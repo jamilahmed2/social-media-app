@@ -4,8 +4,10 @@ import FileBase from 'react-file-base64'
 import { useDispatch } from "react-redux";
 import { createPost } from '../../actions/posts'
 import { TextField, Typography, Button, Paper, Container } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Form = ({ }) => {
+  const navigate = useNavigate();
   const [currentId, setCurrentId] = useState(null)
   const classes = useStyles();
   const [postData, setPostData] = useState({ title: '', message: '', tags: '', selectedFile: '' });
@@ -14,7 +16,7 @@ const Form = ({ }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost({ ...postData, name: user?.result?.name }));
+    dispatch(createPost({ ...postData, name: user?.result?.name },navigate));
     clear();
   };
 

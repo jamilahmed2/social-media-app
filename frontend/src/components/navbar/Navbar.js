@@ -7,6 +7,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import { useDispatch } from 'react-redux';
 import decode from 'jwt-decode'
+import './navbar.css'
 
 const Navbar = () => {
   const classes = useStyles();
@@ -55,7 +56,7 @@ const Navbar = () => {
           </Link>
           <Toolbar className={classes.toolbar}>
             {user ? (
-              <div className={classes.profile}>
+              <div className={classes.profile} id='avatar'>
                 <Avatar color="purple" alt={user.result.name} src={user.result.picture}>{user.result.name}</Avatar>
                 <Typography className={classes.userName} varient="h6">{user.result.name}</Typography>
                 <Button variant="outlined" component={Link} to="/form" color="primary" style={{ marginRight: "5px" }}>Upload</Button>

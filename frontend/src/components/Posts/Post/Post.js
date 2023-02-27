@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
+import { Button, ButtonBase, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpAltOutlined from '@mui/icons-material/ThumbUpAltOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,9 +9,11 @@ import moment from 'moment'
 import useStyles from './style'
 import { useDispatch } from "react-redux"
 import { deletePost, likePost } from '../../../actions/posts';
+import { useNavigate } from 'react-router-dom';
+import './post.css'
 
 const Post = ({ post, setCurrentId, updateNote }) => {
-
+  const navigate = useNavigate();
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('profileData'));
@@ -35,29 +37,36 @@ const Post = ({ post, setCurrentId, updateNote }) => {
   };
 
 
+  const openPost = (e) => {
+    navigate(`/posts/${post._id}`)
+  };
+
+
   return (
     <Card className={classes.Card} raised elevation={6}>
-      <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
-      <div className={classes.overlay}>
-        <Typography varient="h6">{post.name}</Typography>
-        <Typography varient="body2">{moment(post.createdAt).fromNow()}</Typography>
+      <div className='cardAction' onClick={openPost}>
+        <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
+        <div className={classes.overlay}>
+          <Typography varient="h6">{post.name}</Typography>
+          <Typography varient="body2">{moment(post.createdAt).fromNow()}</Typography>
+        </div>
+
+        <div style={{ marginTop: "2.5rem" }} className={classes.details}>
+          <Typography varient="body2" color='textSecondary'>{post.tags.map((tag) => `# ${tag} `)}</Typography>
+        </div>
+        <Typography className={classes.title} varient="h5" gutterBottom >{post.title}</Typography>
+        <CardContent>
+          <Typography varient="h5" color='textSecondary' component='p' >{post.message}</Typography>
+        </CardContent>
       </div>
       {(user?.result?.sub === post?.creator || user?.result._id === post?.creator) && (
-        <div  className={classes.overlay2}>
+        <div className='overlay2'>
 
           <Button size="small" onClick={handleEdit}>
             <EditIcon fontSize='medium' />
           </Button>
         </div>
       )}
-
-      <div style={{marginTop:"2.5rem"}} className={classes.details}>
-        <Typography varient="body2" color='textSecondary'>{post.tags.map((tag) => `# ${tag} `)}</Typography>
-      </div>
-      <Typography className={classes.title} varient="h5" gutterBottom >{post.title}</Typography>
-      <CardContent>
-        <Typography varient="h5" color='textSecondary' component='p' >{post.message}</Typography>
-      </CardContent>
       <CardActions className={classes.cardActions}>
 
         <Button size="small" color='primary' disabled={!user?.result} onClick={() => dispatch(likePost(post._id))}>

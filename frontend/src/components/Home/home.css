@@ -1,0 +1,27 @@
+
+@media only screen and (max-width:900px) {
+    #search{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    #searchPaper{
+        width: 200%;
+    }
+    #searchPaper button{
+        margin: 1rem;
+    }
+    
+}
+@media only screen and (max-width:600px) {
+    #search{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    #searchPaper{
+        width: 100%;
+    }
+    #searchPaper button{
+        margin: 10px;
+    }
+    
+}

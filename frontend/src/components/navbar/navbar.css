@@ -1,0 +1,12 @@
+
+
+@media only screen and (max-width:600px) {
+    #avatar {
+        /* background-color: grey; */
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+        gap: 10px;
+        align-items: center;
+    }
+}

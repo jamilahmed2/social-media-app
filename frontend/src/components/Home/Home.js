@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getPosts } from '../../actions/posts';
 import Posts from '../Posts/Posts'
 import { Container, Grow, Grid, Paper, AppBar } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { MuiChipsInput } from 'mui-chips-input'
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -11,7 +11,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import FileBase from 'react-file-base64'
-
+import './home.css'
 import { updatePost, getPostsBySearch } from '../../actions/posts'
 import CloseIcon from '@mui/icons-material/Close';
 import Pagination from '../Pagination/Pagination';
@@ -19,26 +19,28 @@ import useStyle from './style'
 
 
 // url search params to know on which page are user currently
-function useQuerry() {
-    return new URLSearchParams(useNavigate().search);
+function useQuery() {
+    return new URLSearchParams(useLocation().search);
 }
 const Home = () => {
     const classes = useStyle();
     const ref = useRef(null)
-    const [currentId, setCurrentId] = useState(null)
-    const navigate = useNavigate();
     const [open, setOpen] = React.useState(false);
+
     const [postData, setPostData] = useState({ title: '', message: '', tags: '', selectedFile: '' });
-    const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);
+    const [currentId, setCurrentId] = useState(0)
+    const post = useSelector((state) => currentId ? state.posts.posts.find((p) => p._id === currentId) : null);
     const user = JSON.parse(localStorage.getItem('profileData'));
+
     const dispatch = useDispatch();
+
     const [search, setSearch] = useState('');
     const [tags, setTags] = useState([]);
-    const querry = useQuerry();
-    // read file and see any page parameter in there
-    const page = querry.get('page') || 1;
-    // search querry
-    const searchQuerry = querry.get('searchQuerry');
+    const navigate = useNavigate();
+
+    const query = useQuery();
+    const page = query.get('page') || 1;
+    const searchQuery = query.get('searchQuery');
 
 
     // populating note in form to edit
@@ -70,29 +72,29 @@ const Home = () => {
         });
     }
 
+
+    const searchPost = () => {
+        if (search.trim() || tags) {
+            dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
+            navigate(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`);
+        } else {
+            navigate('/');
+        }
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.keyCode === 13) {
+            searchPost();
+        }
+    };
+    
     useEffect(() => {
         dispatch(getPosts());
     }, [currentId, dispatch])
 
-    const handleKeyPress = (e) => {
-        if (e.keyCode === 13) {
-            // search post
-        }
-    }
-    // const handleAdd = (tag) => setTags([...tags, tag]) ;
-    // const handleDelete = (tagToDelete) => { setTags(tags.filter((tag) => tag !== tagToDelete)) };
     const handleChange = (newTag) => {
         setTags(newTag)
     }
-    const searchPost = () => {
-        if (search.trim() || tags) {
-            dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
-            navigate(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')} `);
-        } else {
-            navigate('/');
-        }
-    }
-
     return (
         <>
             <div>
@@ -125,13 +127,13 @@ const Home = () => {
             <Grow in>
                 <Container maxWidth="xl">
 
-                    <Grid container alignItems="stretch" spacing={3}>
+                    <Grid container alignItems="stretch" spacing={3} id='search'>
                         <Grid item xs={12} md={9}>
 
                             <Posts setCurrentId={setCurrentId} updateNote={updateNote} />
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
-                            <Paper elevation={6} >
+                        <Grid item xs={12} sm={6} md={3}  >
+                            <Paper elevation={6} id='searchPaper'>
                                 <AppBar className={classes.appBarSearch} position='static' color='inherit'>
                                     <TextField
                                         name='search'
@@ -143,7 +145,8 @@ const Home = () => {
                                         onChange={(e) => setSearch(e.target.value)} />
                                 </AppBar>
                                 <MuiChipsInput
-                                    style={{ margin: '10px 5px' }}
+                                    
+                                    style={{ margin: '10px 0px' }}
                                     value={tags}
                                     // onAdd={handleAdd}
                                     // onDelete={handleDelete}
@@ -154,12 +157,14 @@ const Home = () => {
                                 <Button variant='contained' onClick={searchPost} className={classes.searchButton} color='primary' sx={{ margin: '5px' }}>Search</Button>
                             </Paper>
                         </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Paper elevation={6}>
-                                <Pagination />
-                            </Paper>
-                        </Grid>
                     </Grid>
+                        <Grid item xs={12} md={6}>
+                            {(!searchQuery && !tags.length) && (
+                                <Paper className={classes.pagination} elevation={6}>
+                                    <Pagination page={page} />
+                                </Paper>
+                            )}
+                        </Grid>
                 </Container>
             </Grow>
         </>

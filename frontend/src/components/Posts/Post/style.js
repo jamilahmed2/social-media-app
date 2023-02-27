@@ -30,7 +30,7 @@ export default makeStyles({
   overlay2: {
     position: 'relative',
     // top: '20px',
-    left: "15rem",
+    left: "12rem",
     // right: '20px',
     color: 'black'
   },
