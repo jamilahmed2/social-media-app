@@ -7,6 +7,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import { useDispatch } from 'react-redux';
 import decode from 'jwt-decode'
+import * as actionType from '../../constants/actionTypes';
 import './navbar.css'
 
 const Navbar = () => {
@@ -16,6 +17,14 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('profileData')));
 
+  const handleLogout = () => {
+    dispatch({ type: "LOGOUT" });
+
+    navigate('/');
+
+    setUser(null);
+  };
+  
   useEffect(() => {
     const token = user?.token;
     if (token) {
@@ -27,11 +36,6 @@ const Navbar = () => {
     setUser(JSON.parse(localStorage.getItem('profileData')));
   }, [location])
 
-  const handleLogout = () => {
-    dispatch({ type: "LOGOUT", });
-    navigate('/');
-    setUser(null);
-  }
 
   const theme = createTheme({
     palette: {

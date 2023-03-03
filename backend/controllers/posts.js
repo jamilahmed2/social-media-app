@@ -6,16 +6,16 @@ const router = express.Router();
 // Fetching Posts From Database
 export const getPosts = async (req, res) => {
     const { page } = req.query;
-    
+
     try {
         const LIMIT = 8;
         const startIndex = (Number(page) - 1) * LIMIT; // get the starting index of every page
-    
+
         const total = await PostMessage.countDocuments({});
         const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex);
 
-        res.json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});
-    } catch (error) {    
+        res.json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) });
+    } catch (error) {
         res.status(404).json({ message: error.message });
     }
 }
@@ -107,6 +107,20 @@ export const likePost = async (req, res) => {
     }
 
     const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true })
+
+    res.json(updatedPost);
+}
+
+// comment on a post
+export const commentPost = async (req, res) => {
+    const { id } = req.params;
+    const { value } = req.body;
+    // finding a post
+    const post = await PostMessage.findById(id);
+    // commenting
+    post.comments.push(value);
+    // adding comment to a existing post
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
 
     res.json(updatedPost);
 }
