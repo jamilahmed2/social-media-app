@@ -12,8 +12,8 @@ export default makeStyles(() => ({
     display: 'flex',
     width: '100%',
     // [theme.breakpoints.down('sm')]: {
-      // flexWrap: 'wrap',
-      flexDirection: 'column-reverse',
+    // flexWrap: 'wrap',
+    flexDirection: 'column-reverse',
     // },
   },
   section: {
@@ -23,18 +23,27 @@ export default makeStyles(() => ({
   },
   imageSection: {
     marginLeft: '20px',
-//     [theme.breakpoints.down('sm')]: {
-//       marginLeft: 0,
-//     },
+    //     [theme.breakpoints.down('sm')]: {
+    //       marginLeft: 0,
+    //     },
   },
   recommendedPosts: {
     display: 'flex',
-    flexDirection:'column',
+    flexDirection: 'column',
     // [theme.breakpoints.down('sm')]: {
     //   flexDirection: 'column',
     // },
   },
   loadingPaper: {
     display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px', borderRadius: '15px', height: '39vh',
+  },
+  commentsOuterContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  commentsInnerContainer: {
+    height: '200px',
+    overflow: 'auto',
+    marginRight: '30px',
   },
 }));
