@@ -50,7 +50,7 @@ const PostDetails = () => {
                         <Typography gutterBottom variant="body1" component="p">{post.message}</Typography>
                         <Typography variant="h6">Created by: {post.name}</Typography>
                         <Typography variant="body1">{moment(post.createdAt).fromNow()}</Typography>
-                        <Divider style={{ margin: '20px 0' }} />
+                        {/* <Divider style={{ margin: '20px 0' }} /> */}
                         {/* <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography> */}
                         <Divider style={{ margin: '20px 0' }} />
                         <CommentSection post={post} />
@@ -63,19 +63,20 @@ const PostDetails = () => {
 
                 {!!recommendedPosts.length && (
                     <div className={classes.section}>
-                        <Typography gutterBottom variant="h5">You might also like:</Typography>
+                        <Typography gutterBottom variant="h5"><strong>You might also like:</strong></Typography>
                         <Divider />
                         <div className={classes.recommendedPosts}>
                             {recommendedPosts.map(({ title, name, message, likes, selectedFile, _id }) => (
-                                <div style={{ margin: '20px', cursor: 'pointer' }} onClick={() => openPost(_id)} key={_id}>
-                                    <Typography gutterBottom variant="h6">{title}</Typography>
-                                    <Typography gutterBottom variant="subtitle2">{name}</Typography>
-                                    <Typography gutterBottom variant="subtitle2">{message}</Typography>
-                                    <Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
-                                    <img src={selectedFile} width="200px" />
-                                </div>
+                                    <div style={{ margin: '20px', cursor: 'pointer' }} onClick={() => openPost(_id)} key={_id}>
+                                        <Typography gutterBottom variant="h6">{title}</Typography>
+                                        <Typography gutterBottom variant="subtitle2">{name}</Typography>
+                                        <Typography gutterBottom variant="subtitle2">{message}</Typography>
+                                        <Typography gutterBottom variant="subtitle1">Likes: {likes.length}</Typography>
+                                        <img src={selectedFile} width="200px" />
+                                    </div>
                             ))}
                         </div>
+
                     </div>
                 )}
             </Paper>

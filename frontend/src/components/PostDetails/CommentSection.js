@@ -16,18 +16,18 @@ const CommentSection = ({ post }) => {
 
     const handleComment = async () => {
         const newComments = await dispatch(commentPost(`${user?.result?.name}: ${comment}`, post._id));
-    
+
         setComment('');
         setComments(newComments);
-    
+
         commentsRef.current.scrollIntoView({ behavior: 'smooth' });
-      };
+    };
     // commentsRef.current.scrollIntoView({ behavior: 'smooth' });
     return (
         <div>
             <div className={classes.commentsOuterContainer}>
                 <div className={classes.innerContainer}>
-                    <Typography gutterBottom variant='h6'>Comments</Typography>
+                    <Typography gutterBottom variant='h6'><strong> Comments:</strong></Typography>
                     {comments.map((c, i) => (
                         <Typography key={i} gutterBottom variant='subtitle1'>
                             <strong>{c.split(":")[0]}</strong> {c.split(':')[1]}
@@ -37,7 +37,7 @@ const CommentSection = ({ post }) => {
                 </div>
                 {user?.result?.name && (
                     <div style={{ width: '50%' }}>
-                        <Typography gutterBottom variant='h6'>Write a comment</Typography>
+                        <Typography gutterBottom variant='h6'><strong>Write a comment</strong></Typography>
                         <TextField
                             fullWidth
                             rows={4}
