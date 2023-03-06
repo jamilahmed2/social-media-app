@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// const API = axios.create({ baseURL: 'http://localhost:5000' });
-const API = axios.create({ baseURL: 'http://localhost:5000' || 'https://timeline-pro.herokuapp.com' });
+const API = axios.create({ baseURL: 'https://timeline-pro.herokuapp.com' });
+// const API = axios.create({ baseURL: 'http://localhost:5000' || 'https://timeline-pro.herokuapp.com' });
 
 // without interceptors middleware will not work
 API.interceptors.request.use((req) => {
